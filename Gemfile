@@ -1,4 +1,5 @@
 source 'https://rubygems.org'
+source 'https://rails-assets.org'
 
 ruby '2.1.5'
 
@@ -38,6 +39,4 @@ gem 'spring',        group: :development
 gem 'rails_12factor', group: :production
 
 # Front-end assets
-source 'https://rails-assets.org' do
-  gem 'rails-assets-bootstrap-sass-official'
-end
+gem 'rails-assets-bootstrap-sass-official'

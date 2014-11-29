@@ -120,7 +120,7 @@ DEPENDENCIES
   jquery-rails
   pg
   rails (= 4.1.8)
-  rails-assets-bootstrap-sass-official!
+  rails-assets-bootstrap-sass-official
   rails_12factor
   sass-rails (~> 4.0.3)
   sdoc (~> 0.4.0)
