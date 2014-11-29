@@ -40,3 +40,4 @@ gem 'rails_12factor', group: :production
 
 # Front-end assets
 gem 'rails-assets-bootstrap-sass-official'
+gem 'rails-assets-angular'
