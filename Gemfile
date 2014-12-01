@@ -48,3 +48,4 @@ gem 'quiet_assets', group: :development
 # Front-end assets
 gem 'rails-assets-bootstrap-sass-official'
 gem 'rails-assets-angular'
+gem 'rails-assets-angular-route'
