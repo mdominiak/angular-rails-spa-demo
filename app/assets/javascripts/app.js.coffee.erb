@@ -10,3 +10,12 @@ app.config ['$routeProvider', '$locationProvider', ($routeProvider, $locationPro
   $routeProvider.when '/login', templateUrl: "<%= asset_path('login.html') %>"
   $routeProvider.when '/sign_up', templateUrl: "<%= asset_path('sign_up.html') %>"
 ]
+
+app.controller 'LoginCtrl', ['$scope', ($scope) ->
+  $scope.credentials =
+    email: ""
+    password: ""
+
+  $scope.login = (credentials) ->
+    console.log credentials
+]
