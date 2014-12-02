@@ -45,6 +45,9 @@ gem 'rails_12factor', group: :production
 # Silence assets in log
 gem 'quiet_assets', group: :development
 
+# Authentication
+gem 'devise'
+
 # Front-end assets
 gem 'rails-assets-bootstrap-sass-official'
 gem 'rails-assets-angular'
