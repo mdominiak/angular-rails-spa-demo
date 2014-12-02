@@ -1,10 +1,12 @@
 #= depend_on_asset 'home.html'
-#= depend_on_asset 'new.html'
+#= depend_on_asset 'login.html'
+#= depend_on_asset 'sign_up.html'
 
-app = angular.module('caloriesApp', ['ngRoute']);
+app = angular.module 'caloriesApp', ['ngRoute']
 
 app.config ['$routeProvider', '$locationProvider', ($routeProvider, $locationProvider) ->
   $locationProvider.html5Mode true
   $routeProvider.when '/', templateUrl: "<%= asset_path('home.html') %>"
-  $routeProvider.when '/meals/new', templateUrl: "<%= asset_path('new.html') %>"
+  $routeProvider.when '/login', templateUrl: "<%= asset_path('login.html') %>"
+  $routeProvider.when '/sign_up', templateUrl: "<%= asset_path('sign_up.html') %>"
 ]
