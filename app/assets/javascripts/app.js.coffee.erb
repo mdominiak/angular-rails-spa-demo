@@ -1,18 +1,29 @@
 #= depend_on_asset 'home.html'
 #= depend_on_asset 'login.html'
 #= depend_on_asset 'sign_up.html'
+#= depend_on_asset 'dashboard.html'
 
 app = angular.module 'caloriesApp', ['ngRoute']
 
 app.config ['$routeProvider', '$locationProvider', ($routeProvider, $locationProvider) ->
   $locationProvider.html5Mode true
+
   $routeProvider.when '/', templateUrl: "<%= asset_path('home.html') %>"
   $routeProvider.when '/login', templateUrl: "<%= asset_path('login.html') %>"
   $routeProvider.when '/sign_up', templateUrl: "<%= asset_path('sign_up.html') %>"
+  $routeProvider.when '/dashboard', templateUrl: "<%= asset_path('dashboard.html') %>", auth: true
 ]
 
-app.run ['$rootScope', ($rootScope) ->
+app.run ['$rootScope', '$location', ($rootScope, $location) ->
   $rootScope.currentUser = exports.currentUser
+
+  $rootScope.$on "$routeChangeStart", (event, next, current) ->
+    if (next.auth and not $rootScope.currentUser)
+      event.preventDefault()
+      $location.path('/login')
+    else if (not next.auth and $rootScope.currentUser)
+      event.preventDefault()
+      $location.path('/dashboard')
 ]
 
 app.controller 'ApplicationCtrl', ['$rootScope', '$scope', '$http', '$location', ($rootScope, $scope, $http, $location) ->
@@ -45,7 +56,7 @@ app.controller 'LoginCtrl', ['$scope', '$http', '$location', '$rootScope', ($sco
       .success (data) ->
         busy = false
         $rootScope.currentUser = data
-        $location.path('/')
+        $location.path('/dashboard')
       .error ->
         console.log 'error'
         busy = false

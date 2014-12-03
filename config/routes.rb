@@ -4,8 +4,9 @@ Rails.application.routes.draw do
 
   devise_for :users, module: 'api', path: 'api/users', defaults: {format: 'json'}
 
-  get 'login' => 'home#index'
   get 'sign_up' => 'home#index'
+  get 'login' => 'home#index'
+  get 'dashboard' => 'home#index'
 
   # The priority is based upon order of creation: first created -> highest priority.
   # See how all your routes lay out with "rake routes".
