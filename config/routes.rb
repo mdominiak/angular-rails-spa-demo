@@ -1,5 +1,8 @@
 Rails.application.routes.draw do
+
   root 'home#index'
+
+  devise_for :users, module: 'api', path: 'api/users', defaults: {format: 'json'}
 
   get 'login' => 'home#index'
   get 'sign_up' => 'home#index'

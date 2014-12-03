@@ -11,11 +11,27 @@ app.config ['$routeProvider', '$locationProvider', ($routeProvider, $locationPro
   $routeProvider.when '/sign_up', templateUrl: "<%= asset_path('sign_up.html') %>"
 ]
 
-app.controller 'LoginCtrl', ['$scope', ($scope) ->
+app.run ['$rootScope', ($rootScope) ->
+  $rootScope.currentUser = exports.currentUser
+]
+
+app.controller 'LoginCtrl', ['$scope', '$http', '$location', '$rootScope', ($scope, $http, $location, $rootScope) ->
   $scope.credentials =
     email: ""
     password: ""
 
+  busy = false
+
   $scope.login = (credentials) ->
-    console.log credentials
+    return if busy
+    busy = true
+    $http.post('/api/users/sign_in', user: credentials)
+      .success (data) ->
+        console.log data
+        busy = false
+        $rootScope.currentUser = data
+        $location.path('/')
+      .error ->
+        console.log 'error'
+        busy = false
 ]

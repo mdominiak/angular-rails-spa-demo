@@ -23,8 +23,9 @@
         <li><a href="/">Home</a></li>
       </ul>
       <ul class="nav navbar-nav navbar-right">
-        <li><a href="/sign_up">Sign up</a></li>
-        <li><a href="/login">Login</a></li>
+        <li ng-hide="currentUser"><a href="/sign_up">Sign up</a></li>
+        <li ng-hide="currentUser"><a href="/login">Login</a></li>
+        <li ng-show="currentUser"><a href='/logout'>Logout</a></li>
       </ul>
   </div>
 </nav>
@@ -32,6 +33,13 @@
 <div class="container" ng-view>
   <%= yield %>
 </div>
+
+<script type="text/javascript">
+  var exports = {currentUser: null};
+  <% if user_signed_in? %>
+    exports.currentUser = <%= raw render partial: 'api/users/user', formats: 'json', locals: {user: current_user} %>;
+  <% end %>
+</script>
 
 </body>
 </html>
