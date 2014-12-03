@@ -15,6 +15,22 @@ app.run ['$rootScope', ($rootScope) ->
   $rootScope.currentUser = exports.currentUser
 ]
 
+app.controller 'ApplicationCtrl', ['$rootScope', '$scope', '$http', '$location', ($rootScope, $scope, $http, $location) ->
+  busy = false
+
+  $scope.logout = ->
+    return if busy
+    busy = true
+    $http.delete('/api/users/sign_out')
+      .success (data) ->
+        $rootScope.currentUser = null
+        $location.path("/")
+        busy = false
+      .error ->
+        console.log 'error'
+        busy = false
+]
+
 app.controller 'LoginCtrl', ['$scope', '$http', '$location', '$rootScope', ($scope, $http, $location, $rootScope) ->
   $scope.credentials =
     email: ""
@@ -27,7 +43,6 @@ app.controller 'LoginCtrl', ['$scope', '$http', '$location', '$rootScope', ($sco
     busy = true
     $http.post('/api/users/sign_in', user: credentials)
       .success (data) ->
-        console.log data
         busy = false
         $rootScope.currentUser = data
         $location.path('/')

@@ -12,7 +12,7 @@
   <%= javascript_include_tag 'application' %>
   <%= csrf_meta_tags %>
 </head>
-<body>
+<body ng-controller="ApplicationCtrl">
 
 <nav class="navbar navbar-default" role="navigation">
   <div class="container">
@@ -25,7 +25,14 @@
       <ul class="nav navbar-nav navbar-right">
         <li ng-hide="currentUser"><a href="/sign_up">Sign up</a></li>
         <li ng-hide="currentUser"><a href="/login">Login</a></li>
-        <li ng-show="currentUser"><a href='/logout'>Logout</a></li>
+        <li ng-show="currentUser" class="dropdown">
+          <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
+            {{currentUser.email}} <span class="caret"></span>
+          </a>
+          <ul class="dropdown-menu" role="menu">
+            <li><a href="#" ng-click="logout()">Logout</a></li>
+          </ul>
+        </li>
       </ul>
   </div>
 </nav>
