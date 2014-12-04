@@ -19,7 +19,7 @@ describe "Sessions API", type: :request do
 
   describe 'logout' do
     before do
-      post "/api/users/sign_in", user: { email: user.email, password: user.password }      
+      post "/api/users/sign_in", user: { email: user.email, password: user.password }
     end
 
     it 'success' do

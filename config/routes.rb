@@ -4,6 +4,10 @@ Rails.application.routes.draw do
 
   devise_for :users, module: 'api', path: 'api/users', defaults: {format: 'json'}
 
+  namespace :api, defaults: {format: 'json'} do
+    resources :meals, only: [:index]
+  end
+
   get 'sign_up' => 'home#index'
   get 'login' => 'home#index'
   get 'dashboard' => 'home#index'
