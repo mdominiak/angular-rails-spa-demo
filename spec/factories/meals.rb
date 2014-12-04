@@ -1,7 +1,7 @@
 FactoryGirl.define do
   factory :meal do
-    eaten_at "2014-12-04 10:50:42"
-    calories 1
-    description "MyString"
+    sequence(:eaten_at) {|i| Time.now - (i - 1) * 60 * 60}
+    calories { rand(1000) + 1 }
+    sequence(:description) {|i| "description #{i}"}
   end
 end

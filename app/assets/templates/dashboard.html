@@ -1,3 +1,23 @@
 <div class='page-header'>
-  <h1>Dashboard</h1>
+  <h1>Meals</h1>
+</div>
+
+<div ng-controller="MealsCtrl">
+  <p><button type="button" class="btn btn-primary">Add Meal</button></p>
+  <table class="table table-striped">
+    <thead>
+      <tr>
+        <th>When</th>
+        <th>Calories</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr ng-repeat="meal in meals">
+        <td>{{meal.eaten_at | date: 'medium'}}</td>
+        <td>{{meal.calories}}</td>
+        <td>{{meal.description}}</td>
+      </div>
+    </tbody>
+  </table>
 </div>

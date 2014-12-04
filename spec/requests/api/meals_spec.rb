@@ -4,7 +4,7 @@ describe 'Meals API', type: :request do
 
   context 'authenticated' do
     let!(:user) { FactoryGirl.create(:user) }
-    let!(:meal) { user.meals.create FactoryGirl.attributes_for(:meal) }
+    let!(:meals) { user.meals.create FactoryGirl.attributes_for_list(:meal, 2) }
 
     before do
       post "/api/users/sign_in", user: { email: user.email, password: user.password }
@@ -16,9 +16,12 @@ describe 'Meals API', type: :request do
         expect(response).to have_http_status(200)
 
         json_arr = JSON.parse(response.body)
-        expect(json_arr.length).to eq 1
+        expect(json_arr.length).to eq 2
+
+        expect(json_arr.map{|m| m['id']}).to eq meals.map(&:id)
 
         json_meal = json_arr.first
+        meal = meals.first
         expect(json_meal.keys.sort).to eq %w{id eaten_at calories description}.sort
         expect(json_meal['id']).to eq meal.id
         expect(json_meal['calories']).to eq meal.calories
