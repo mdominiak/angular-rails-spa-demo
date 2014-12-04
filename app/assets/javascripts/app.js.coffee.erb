@@ -3,7 +3,25 @@
 #= depend_on_asset 'sign_up.html'
 #= depend_on_asset 'dashboard.html'
 
-app = angular.module 'caloriesApp', ['ngRoute']
+app = angular.module 'caloriesApp', ['ngRoute', 'ui.bootstrap']
+
+app.factory 'alerts', ['$rootScope', ($rootScope) ->
+  $rootScope.alerts = []
+
+  alerts =
+    addAlert: (type, msg) ->
+      $rootScope.alerts.push
+        type: type
+        msg: msg
+        close: ->
+          alerts.closeAlert(@)
+    closeAlert: (alert) ->
+      @closeAlertAtIdx $rootScope.alerts.indexOf(alert)
+    closeAlertAtIdx: (idx) ->
+      $rootScope.alerts.splice idx, 1
+    clearAlerts: ->
+      $rootScope.alerts = []
+]
 
 app.config ['$routeProvider', '$locationProvider', ($routeProvider, $locationProvider) ->
   $locationProvider.html5Mode true
@@ -14,7 +32,7 @@ app.config ['$routeProvider', '$locationProvider', ($routeProvider, $locationPro
   $routeProvider.when '/dashboard', templateUrl: "<%= asset_path('dashboard.html') %>", auth: true
 ]
 
-app.run ['$rootScope', '$location', ($rootScope, $location) ->
+app.run ['$rootScope', '$location', 'alerts', ($rootScope, $location, alerts) ->
   $rootScope.currentUser = exports.currentUser
 
   $rootScope.$on "$routeChangeStart", (event, next, current) ->
@@ -24,6 +42,8 @@ app.run ['$rootScope', '$location', ($rootScope, $location) ->
     else if (not next.auth and $rootScope.currentUser)
       event.preventDefault()
       $location.path('/dashboard')
+    else
+      alerts.clearAlerts()
 ]
 
 app.controller 'ApplicationCtrl', ['$rootScope', '$scope', '$http', '$location', ($rootScope, $scope, $http, $location) ->
@@ -42,7 +62,7 @@ app.controller 'ApplicationCtrl', ['$rootScope', '$scope', '$http', '$location',
         busy = false
 ]
 
-app.controller 'LoginCtrl', ['$scope', '$http', '$location', '$rootScope', ($scope, $http, $location, $rootScope) ->
+app.controller 'LoginCtrl', ['$scope', '$http', '$location', 'alerts', '$rootScope', ($scope, $http, $location, alerts, $rootScope) ->
   $scope.credentials =
     email: ""
     password: ""
@@ -59,5 +79,6 @@ app.controller 'LoginCtrl', ['$scope', '$http', '$location', '$rootScope', ($sco
         $location.path('/dashboard')
       .error ->
         console.log 'error'
+        alerts.addAlert 'danger', 'Invalid email or password.'
         busy = false
 ]

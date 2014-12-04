@@ -37,6 +37,10 @@
   </div>
 </nav>
 
+<div class="container">
+  <alert ng-repeat="alert in alerts" type="{{alert.type}}" close="alert.close()">{{alert.msg}}</alert>
+</div>
+
 <div class="container" ng-view>
   <%= yield %>
 </div>

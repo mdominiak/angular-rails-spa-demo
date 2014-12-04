@@ -1,0 +1,39 @@
+/*
+ * angular-ui-bootstrap
+ * http://angular-ui.github.io/bootstrap/
+
+ * Version: 0.12.0 - 2014-11-16
+ * License: MIT
+ */
+angular.module("ui.bootstrap", ["ui.bootstrap.alert"]);
+angular.module('ui.bootstrap.alert', [])
+
+.controller('AlertController', ['$scope', '$attrs', function ($scope, $attrs) {
+  $scope.closeable = 'close' in $attrs;
+  this.close = $scope.close;
+}])
+
+.directive('alert', function () {
+  return {
+    restrict:'EA',
+    controller:'AlertController',
+    templateUrl: "<%= asset_path('alert.html') %>",
+    transclude:true,
+    replace:true,
+    scope: {
+      type: '@',
+      close: '&'
+    }
+  };
+})
+
+.directive('dismissOnTimeout', ['$timeout', function($timeout) {
+  return {
+    require: 'alert',
+    link: function(scope, element, attrs, alertCtrl) {
+      $timeout(function(){
+        alertCtrl.close();
+      }, parseInt(attrs.dismissOnTimeout, 10));
+    }
+  };
+}]);
