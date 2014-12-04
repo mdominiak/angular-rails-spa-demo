@@ -4,7 +4,8 @@
 
 <div ng-controller="MealsCtrl">
   <p><a href="meals/new" class="btn btn-primary">Add Meal</a></p>
-  <table class="table table-striped">
+  <p ng-show="meals.length == 0">No meals to show.</p>
+  <table class="table table-striped" ng-show="meals.length > 0">
     <thead>
       <tr>
         <th>When</th>
