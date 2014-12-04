@@ -29,11 +29,44 @@ describe 'Meals API', type: :request do
         expect(json_meal['eaten_at']).to eq meal.eaten_at.as_json
       end
     end
+
+    describe 'create' do
+      let(:meal_attr) {
+        {
+          eaten_at: Time.now.utc.as_json,
+          description: 'description',
+          calories: 500
+        }
+      }
+
+      it 'success' do
+        post '/api/meals', meal: meal_attr
+        expect(response).to have_http_status(201)
+
+        expect(user.meals.count).to eq 3
+        meal = user.meals.last
+        expect(meal.calories).to eq meal_attr[:calories]
+        expect(meal.description).to eq meal_attr[:description]
+        expect(meal.eaten_at.as_json).to eq meal_attr[:eaten_at].as_json
+
+        json = JSON.parse(response.body)
+        expect(json.keys.sort).to eq %w{id calories eaten_at description}.sort
+        expect(json['id']).to eq meal.id
+        expect(json['calories']).to eq meal.calories
+        expect(json['description']).to eq meal.description
+        expect(json['eaten_at']).to eq meal.eaten_at.as_json
+      end
+    end
   end
 
   context 'unauthenticated' do
     it 'index' do
       get '/api/meals'
+      expect(response).to have_http_status(401)
+    end
+
+    it 'create' do
+      post '/api/meals'
       expect(response).to have_http_status(401)
     end
   end

@@ -1,1 +1,1 @@
-json.array! @meals, :id, :eaten_at, :calories, :description
+json.array! @meals, partial: 'api/meals/meal', as: :meal
