@@ -1,1 +1,11 @@
 @import 'bootstrap-sass-official/bootstrap';
+
+.table-meals {
+  .col-when {
+    width: 120px;
+  }
+  .col-calories {
+    width: 50px;
+    text-align: right;
+  }
+}

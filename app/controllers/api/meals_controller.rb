@@ -1,6 +1,7 @@
 module Api
   class MealsController < ApplicationController
     before_filter :authenticate_user!
+    skip_before_filter :verify_authenticity_token
 
     def index
       @meals = current_user.meals.order(eaten_at: :desc)
