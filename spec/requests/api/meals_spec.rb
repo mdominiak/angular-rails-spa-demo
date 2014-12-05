@@ -4,7 +4,12 @@ describe 'Meals API', type: :request do
 
   context 'authenticated' do
     let!(:user) { FactoryGirl.create(:user) }
-    let!(:meals) { user.meals.create FactoryGirl.attributes_for_list(:meal, 2) }
+    let!(:meals) do
+      user.meals.create([
+        FactoryGirl.attributes_for(:meal, eaten_at: "2014-12-05 10:00"),
+        FactoryGirl.attributes_for(:meal, eaten_at: "2014-12-06 11:00")
+      ])
+    end
     let(:meal) { meals.first }
     let(:other_user) { FactoryGirl.create(:user) }
     let(:other_meal) { other_user.meals.create FactoryGirl.attributes_for(:meal) }
@@ -21,15 +26,43 @@ describe 'Meals API', type: :request do
         json_arr = JSON.parse(response.body)
         expect(json_arr.length).to eq 2
 
-        expect(json_arr.map{|m| m['id']}).to eq meals.map(&:id)
+        expect(json_arr.map{|m| m['id']}).to eq meals.map(&:id).reverse
 
         json_meal = json_arr.first
-        meal = meals.first
+        meal = meals.last
         expect(json_meal.keys.sort).to eq %w{id eaten_at calories description}.sort
         expect(json_meal['id']).to eq meal.id
         expect(json_meal['calories']).to eq meal.calories
         expect(json_meal['description']).to eq meal.description
         expect(json_meal['eaten_at']).to eq meal.eaten_at.as_json
+      end
+
+      it 'with date from filter' do
+        get '/api/meals', date_from: "2014-12-06"
+        expect(response).to have_http_status(200)
+        json_arr = JSON.parse(response.body)
+        expect(json_arr.length).to eq 1
+      end
+
+      it 'with date to filter' do
+        get '/api/meals', date_to: "2014-12-05"
+        expect(response).to have_http_status(200)
+        json_arr = JSON.parse(response.body)
+        expect(json_arr.length).to eq 1
+      end
+
+      it 'with time from filter' do
+        get '/api/meals', time_from: "11:00"
+        expect(response).to have_http_status(200)
+        json_arr = JSON.parse(response.body)
+        expect(json_arr.length).to eq 1
+      end
+
+      it 'with time from filter' do
+        get '/api/meals', time_to: "10:00"
+        expect(response).to have_http_status(200)
+        json_arr = JSON.parse(response.body)
+        expect(json_arr.length).to eq 1
       end
     end
 

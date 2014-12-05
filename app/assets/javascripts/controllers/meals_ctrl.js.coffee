@@ -1,6 +1,10 @@
 angular.module('caloriesApp').controller 'MealsCtrl', ['$scope', '$http', 'alerts', '$window', ($scope, $http, alerts, $window) ->
   $scope.meals = []
-  $scope.mealFilter = {}
+  $scope.mealFilter =
+    dateFrom: null
+    dateTo: null
+    timeFrom: null
+    timeTo: null
 
   fetchMeals = ->
     filterData = $scope.mealFilter

@@ -6,7 +6,7 @@ module Api
 
     # GET /api/meals
     def index
-      @meals = current_user.meals.order(eaten_at: :desc)
+      @meals = MealsQuery.new(params[:date_from], params[:date_to], params[:time_from], params[:time_to], current_user).query
     end
 
     # POST /api/meals
