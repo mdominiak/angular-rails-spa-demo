@@ -1,8 +1,8 @@
 <div class="page-header">
-  <h1>Add Meal</h1>
+  <h1>{{meal.id ? 'Edit Meal' : 'Add Meal'}}</h1>
 </div>
 
-<form class="form-horizontal" role="form" ng-controller="MealNewCtrl" ng-submit="saveMeal(meal)" name="formMeal" novalidate>
+<form class="form-horizontal" role="form" ng-submit="saveMeal(meal)" name="formMeal" novalidate>
   <div class="form-group" ng-class="{'has-error': formMeal.date.$invalid}">
     <label for="inputDate" class="col-sm-2 control-label">Date</label>
     <div class="col-sm-2">

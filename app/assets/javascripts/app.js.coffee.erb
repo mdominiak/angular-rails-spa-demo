@@ -1,8 +1,9 @@
+#= depend_on_asset 'alert.html'
 #= depend_on_asset 'home.html'
 #= depend_on_asset 'login.html'
 #= depend_on_asset 'sign_up.html'
 #= depend_on_asset 'dashboard.html'
-#= depend_on_asset 'meals/new.html'
+#= depend_on_asset 'meal.html'
 
 app = angular.module 'caloriesApp', ['ngRoute', 'ui.bootstrap']
 
@@ -31,7 +32,8 @@ app.config ['$routeProvider', '$locationProvider', ($routeProvider, $locationPro
   $routeProvider.when '/login', templateUrl: "<%= asset_path('login.html') %>"
   $routeProvider.when '/sign_up', templateUrl: "<%= asset_path('sign_up.html') %>"
   $routeProvider.when '/dashboard', templateUrl: "<%= asset_path('dashboard.html') %>", auth: true
-  $routeProvider.when '/meals/new', templateUrl: "<%= asset_path('meals/new.html') %>", auth: true
+  $routeProvider.when '/meals/new', templateUrl: "<%= asset_path('meal.html') %>", controller: 'MealNewCtrl', auth: true
+  $routeProvider.when '/meals/:mealId/edit', templateUrl: "<%= asset_path('meal.html') %>", controller: 'MealEditCtrl', auth: true
 ]
 
 app.run ['$rootScope', '$location', 'alerts', ($rootScope, $location, alerts) ->

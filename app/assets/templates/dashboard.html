@@ -20,7 +20,7 @@
         <td class='col-calories'>{{meal.calories}}</td>
         <td>{{meal.description}}</td>
         <td class='text-right'>
-          <a href='#' class='btn btn-primary btn-xs'>Edit</a>
+          <a href='#' class='btn btn-primary btn-xs' ng-href="/meals/{{meal.id}}/edit">Edit</a>
           <a href='#' class='btn btn-danger btn-xs' ng-click="deleteMeal(meal)">Delete</a>
         </td>
       </div>
