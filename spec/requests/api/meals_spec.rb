@@ -57,6 +57,27 @@ describe 'Meals API', type: :request do
         expect(json['eaten_at']).to eq meal.eaten_at.as_json
       end
     end
+
+    describe 'destroy' do
+      let(:other_user) { FactoryGirl.create(:user) }
+      let(:other_meal) { other_user.meals.create FactoryGirl.attributes_for(:meal) }
+
+      it 'success' do
+        delete "/api/meals/#{meals.first.id}"
+        expect(response).to have_http_status(204)
+        expect(user.meals.count).to eq 1
+      end
+
+      it 'not found' do
+        delete "/api/meals/0"
+        expect(response).to have_http_status(404)
+      end
+
+      it 'access denied' do
+        delete "/api/meals/#{other_meal.id}"
+        expect(response).to have_http_status(404)
+      end
+    end
   end
 
   context 'unauthenticated' do
@@ -68,6 +89,11 @@ describe 'Meals API', type: :request do
     it 'create' do
       post '/api/meals'
       expect(response).to have_http_status(401)
+    end
+
+    it 'destroy' do
+      delete '/api/meals/1'
+      expect(response).to have_http_status(401)      
     end
   end
 end

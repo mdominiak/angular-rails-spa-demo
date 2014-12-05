@@ -1,6 +1,9 @@
 @import 'bootstrap-sass-official/bootstrap';
 
 .table-meals {
+  td {
+    vertical-align: middle !important;
+  }
   .col-when {
     width: 120px;
   }
