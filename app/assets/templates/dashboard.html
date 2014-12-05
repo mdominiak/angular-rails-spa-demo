@@ -34,9 +34,28 @@
         <h3 class="panel-title">Filters</h3>
       </div>
       <div class="panel-body">
-        <form>
+        <form novalidate role="form" name="formFilter" ng-submit="filterMeals(mealFilter)">
+          <div class="form-group" ng-class="{'has-error': formFilter.dateFrom.$invalid}">
+            <label for="inputDateFrom">Date from</label>
+            <input type="date" class="form-control" id="inputDateFrom" name="dateFrom" placeholder="YYYY-MM-DD" ng-model="mealFilter.dateFrom"/>
+          </div>
+          <div class="form-group" ng-class="{'has-error': formFilter.dateTo.$invalid}">
+            <label for="inputDateTo">to</label>
+            <input type="date" class="form-control" id="inputDateTo" name="dateTo" placeholder="YYYY-MM-DD" ng-model="mealFilter.dateTo" />
+          </div>
+          <div class="form-group" ng-class="{'has-error': formFilter.timeFrom.$invalid}">
+            <label for="inputTimeFrom">Time between</label>
+            <input type="time" class="form-control" id="inputTimeFrom" name="timeFrom" placeholder="HH:MM" ng-model="mealFilter.timeFrom" />
+          </div>
+          <div class="form-group" ng-class="{'has-error': formFilter.timeTo.$invalid}">
+            <label for="inputTimeTo">and</label>
+            <input type="time" class="form-control" id="inputTimeTo" name="timeTo" placeholder="HH:MM" ng-model="mealFilter.timeTo" />
+          </div>
+          <button type="submit" class="btn btn-primary" ng-disabled="formFilter.$pristine">Filter</button>
         </form>  
       </div>
     </div>
+    <pre>{{mealFilter | json}}</pre>
   </div>
 </div>
+
