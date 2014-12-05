@@ -5,6 +5,9 @@ describe 'Meals API', type: :request do
   context 'authenticated' do
     let!(:user) { FactoryGirl.create(:user) }
     let!(:meals) { user.meals.create FactoryGirl.attributes_for_list(:meal, 2) }
+    let(:meal) { meals.first }
+    let(:other_user) { FactoryGirl.create(:user) }
+    let(:other_meal) { other_user.meals.create FactoryGirl.attributes_for(:meal) }
 
     before do
       post "/api/users/sign_in", user: { email: user.email, password: user.password }
@@ -59,11 +62,8 @@ describe 'Meals API', type: :request do
     end
 
     describe 'destroy' do
-      let(:other_user) { FactoryGirl.create(:user) }
-      let(:other_meal) { other_user.meals.create FactoryGirl.attributes_for(:meal) }
-
       it 'success' do
-        delete "/api/meals/#{meals.first.id}"
+        delete "/api/meals/#{meal.id}"
         expect(response).to have_http_status(204)
         expect(user.meals.count).to eq 1
       end
@@ -80,11 +80,7 @@ describe 'Meals API', type: :request do
     end
 
     describe 'show' do
-      let(:other_user) { FactoryGirl.create(:user) }
-      let(:other_meal) { other_user.meals.create FactoryGirl.attributes_for(:meal) }
-
       it 'success' do
-        meal = meals.first
         get "/api/meals/#{meal.id}"
         expect(response).to have_http_status(200)
         json = JSON.parse(response.body)
@@ -102,6 +98,32 @@ describe 'Meals API', type: :request do
       end
     end
 
+    describe 'update' do
+      let(:meal_attr) { FactoryGirl.attributes_for(:meal) }
+
+      it 'success' do
+        patch "/api/meals/#{meal.id}", meal: meal_attr
+        expect(response).to have_http_status(200)
+        
+        meal.reload
+        expect(meal.calories).to eq meal_attr[:calories]
+        expect(meal.description).to eq meal_attr[:description]
+        expect(meal.eaten_at).to eq meal_attr[:eaten_at]
+
+        json = JSON.parse(response.body)
+        expect(json['id']).to eq meal.id
+      end
+
+      it 'not found' do
+        patch "/api/meals/0"
+        expect(response).to have_http_status(404)
+      end
+
+      it 'access denied' do
+        patch "/api/meals/#{other_meal.id}"
+        expect(response).to have_http_status(404)
+      end
+    end
   end
 
   context 'unauthenticated' do
@@ -117,6 +139,16 @@ describe 'Meals API', type: :request do
 
     it 'destroy' do
       delete '/api/meals/1'
+      expect(response).to have_http_status(401)      
+    end
+
+    it 'show' do
+      get '/api/meals/1'
+      expect(response).to have_http_status(401)
+    end
+
+    it 'update' do
+      patch '/api/meals/1'
       expect(response).to have_http_status(401)      
     end
   end

@@ -2,7 +2,7 @@ module Api
   class MealsController < BaseController
     skip_before_filter :verify_authenticity_token
     before_filter :authenticate_user!
-    before_filter :load_meal, only: [:destroy, :show]
+    before_filter :load_meal, only: [:destroy, :show, :update]
 
     # GET /api/meals
     def index
@@ -18,11 +18,16 @@ module Api
     # DELETE /api/meals/:id
     def destroy
       @meal.destroy
-      head status: :no_content
+      head :no_content
     end
 
     # GET /api/meals/:id
     def show
+    end
+
+    # PATCH /api/meals/:id
+    def update
+      @meal.update! meal_params
     end
 
     private

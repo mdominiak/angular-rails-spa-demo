@@ -5,7 +5,7 @@ Rails.application.routes.draw do
   devise_for :users, module: 'api', path: 'api/users', defaults: {format: 'json'}
 
   namespace :api, defaults: {format: 'json'} do
-    resources :meals, only: [:index, :create, :destroy, :show]
+    resources :meals, only: [:index, :create, :destroy, :show, :update]
   end
 
   get 'sign_up' => 'home#index'
