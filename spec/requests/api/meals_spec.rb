@@ -78,6 +78,30 @@ describe 'Meals API', type: :request do
         expect(response).to have_http_status(404)
       end
     end
+
+    describe 'show' do
+      let(:other_user) { FactoryGirl.create(:user) }
+      let(:other_meal) { other_user.meals.create FactoryGirl.attributes_for(:meal) }
+
+      it 'success' do
+        meal = meals.first
+        get "/api/meals/#{meal.id}"
+        expect(response).to have_http_status(200)
+        json = JSON.parse(response.body)
+        expect(json['id']).to eq meal.id
+      end
+
+      it 'not found' do
+        get "/api/meals/0"
+        expect(response).to have_http_status(404)
+      end
+
+      it 'access denied' do
+        get "/api/meals/#{other_meal.id}"
+        expect(response).to have_http_status(404)
+      end
+    end
+
   end
 
   context 'unauthenticated' do
