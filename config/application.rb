@@ -28,5 +28,6 @@ module CaloriesApp
     # config.i18n.default_locale = :de
 
     config.autoload_paths << Rails.root + 'app' + 'queries'
+    config.filter_parameters << :auth_token
   end
 end
