@@ -8,7 +8,7 @@ describe "Sessions API", type: :request do
       post "/api/users/sign_in", user: { email: user.email, password: user.password }
       expect(response).to have_http_status(:created)
       json = JSON.parse(response.body)
-      expect(json).to eq({'email' => user.email})
+      expect(json).to eq({'email' => user.email, 'daily_calories' => 2000})
     end
 
     it 'with invalid credentials' do

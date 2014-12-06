@@ -11,7 +11,7 @@ describe 'Registrations API', type: :request do
       expect(response).to have_http_status(201)
 
       json = JSON.parse(response.body)
-      expect(json).to eq({'email' => user_attr[:email]})
+      expect(json).to eq({'email' => user_attr[:email], 'daily_calories' => 2000})
 
       user = User.last
       expect(user.email).to eq user_attr[:email]
