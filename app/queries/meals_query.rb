@@ -14,6 +14,11 @@ class MealsQuery
     scope = scope.where("meals.eaten_at::date <= ?", @date_to) if @date_to
     scope = scope.where("date_trunc('minute', meals.eaten_at::time) >= ?", @time_from) if @time_from
     scope = scope.where("date_trunc('minute', meals.eaten_at::time) <= ?", @time_to) if @time_to
-    scope.order(eaten_at: :desc)
+    scope
   end
+
+  def query_with_order
+    query.order(eaten_at: :desc)
+  end
+
 end

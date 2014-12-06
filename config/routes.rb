@@ -6,6 +6,7 @@ Rails.application.routes.draw do
 
   namespace :api, defaults: {format: 'json'} do
     resources :meals, only: [:index, :create, :destroy, :show, :update]
+    resources :calories_daily, only: [:index]
   end
 
   get 'sign_up' => 'home#index'

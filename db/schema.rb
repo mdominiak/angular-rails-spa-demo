@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20141204095042) do
+ActiveRecord::Schema.define(version: 20141206094749) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -28,10 +28,11 @@ ActiveRecord::Schema.define(version: 20141204095042) do
   add_index "meals", ["user_id", "eaten_at"], name: "index_meals_on_user_id_and_eaten_at", order: {"eaten_at"=>:desc}, using: :btree
 
   create_table "users", force: true do |t|
-    t.string   "email",              default: "", null: false
-    t.string   "encrypted_password", default: "", null: false
+    t.string   "email",              default: "",   null: false
+    t.string   "encrypted_password", default: "",   null: false
     t.datetime "created_at"
     t.datetime "updated_at"
+    t.integer  "daily_calories",     default: 2000, null: false
   end
 
   add_index "users", ["email"], name: "index_users_on_email", unique: true, using: :btree

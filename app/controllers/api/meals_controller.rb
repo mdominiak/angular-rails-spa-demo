@@ -1,12 +1,11 @@
 module Api
   class MealsController < BaseController
-    skip_before_filter :verify_authenticity_token
     before_filter :authenticate_user!
     before_filter :load_meal, only: [:destroy, :show, :update]
 
     # GET /api/meals
     def index
-      @meals = MealsQuery.new(params[:date_from], params[:date_to], params[:time_from], params[:time_to], current_user).query
+      @meals = MealsQuery.new(params[:date_from], params[:date_to], params[:time_from], params[:time_to], current_user).query_with_order
     end
 
     # POST /api/meals
