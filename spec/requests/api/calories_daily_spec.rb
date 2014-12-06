@@ -28,6 +28,46 @@ describe 'Calories Daily API' do
         ]
         expect(arr).to eq expected
       end
+
+      it 'with date from filter' do
+        get '/api/calories_daily', date_from: '2014-12-06'
+        expect(response).to have_http_status(200)
+        arr = JSON.parse(response.body)
+        expected = [
+          {'date' => '2014-12-06'.as_json, 'calories' => 500}
+        ]
+        expect(arr).to eq expected        
+      end
+
+      it 'with date to filter' do
+        get '/api/calories_daily', date_to: '2014-12-05'
+        expect(response).to have_http_status(200)
+        arr = JSON.parse(response.body)
+        expected = [
+          {'date' => '2014-12-05'.as_json, 'calories' => 3000}
+        ]
+        expect(arr).to eq expected        
+      end
+
+      it 'with time from filter' do
+        get '/api/calories_daily', time_from: '13:00'
+        expect(response).to have_http_status(200)
+        arr = JSON.parse(response.body)
+        expected = [
+          {'date' => '2014-12-06'.as_json, 'calories' => 200}
+        ]
+        expect(arr).to eq expected        
+      end
+
+      it 'with time to filter' do
+        get '/api/calories_daily', time_to: '10:00'
+        expect(response).to have_http_status(200)
+        arr = JSON.parse(response.body)
+        expected = [
+          {'date' => '2014-12-05'.as_json, 'calories' => 3000}
+        ]
+        expect(arr).to eq expected        
+      end
     end
   end
 

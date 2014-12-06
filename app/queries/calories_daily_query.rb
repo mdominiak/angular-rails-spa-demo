@@ -1,6 +1,6 @@
 class CaloriesDailyQuery
-  def initialize(user)
-    @scope = MealsQuery.new(nil, nil, nil, nil, user).query
+  def initialize(user, date_from_s, date_to_s, time_from_s, time_to_s)
+    @scope = MealsQuery.new(date_from_s, date_to_s, time_from_s, time_to_s, user).query
   end
 
   def query
