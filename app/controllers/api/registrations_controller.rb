@@ -33,7 +33,7 @@ module Api
       if current_user.update(params.require(:user).permit(:daily_calories))
         # render
       else
-        render json: current_user.errors.full_messages, status: :unprocessable_entity
+        render json: {errors: current_user.errors.full_messages}, status: :unprocessable_entity
       end
     end
 

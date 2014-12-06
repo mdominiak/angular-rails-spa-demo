@@ -1,3 +1,17 @@
 <div class='page-header'>
   <h1>Settings</h1>
 </div>
+
+<form class="form-horizontal" role="form" ng-submit="updateUser(user)" name="formUser">
+  <div class="form-group">
+    <label for="inputCalories" class="col-sm-2 control-label">Daily calories</label>
+    <div class="col-sm-3" ng-class="{'has-error': formUser.calories.$dirty && formUser.calories.$invalid}">
+      <input type="number" class="form-control" id="inputCalories" placeholder="2000" ng-model="user.daily_calories" name="calories" required min="1" max="9999" />
+    </div>
+  </div>
+  <div class="form-group">
+    <div class="col-sm-offset-2 col-sm-10">
+      <button type="submit" class="btn btn-primary" ng-disabled="formUser.$pristine || formUser.$invalid">Save Settings</button>
+    </div>
+  </div>
+</form>
