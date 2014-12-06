@@ -14,6 +14,7 @@ Rails.application.routes.draw do
   get 'dashboard' => 'home#index'
   get 'meals/new' => 'home#index'
   get 'meals/:id/edit' => 'home#index'
+  get 'settings' => 'home#index'
 
   # The priority is based upon order of creation: first created -> highest priority.
   # See how all your routes lay out with "rake routes".
