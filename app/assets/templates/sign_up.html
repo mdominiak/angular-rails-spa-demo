@@ -17,6 +17,12 @@
       </div>
     </div>
     <div class="form-group">
+      <label for="inputConfirmation" class="col-sm-2 control-label">Confirm password</label>
+      <div class="col-sm-3" ng-class="{'has-error': formUser.confirmation.$dirty && formUser.confirmation.$invalid}">
+        <input type="password" class="form-control" id="inputConfirmation" placeholder="Password" ng-model="confirmation" name="confirmation" compare-to="user.password" />
+      </div>
+    </div>
+    <div class="form-group">
       <div class="col-sm-offset-2 col-sm-10">
         <button type="submit" class="btn btn-primary" ng-disabled="formUser.$pristine || formUser.$invalid">Sign up</button>
       </div>

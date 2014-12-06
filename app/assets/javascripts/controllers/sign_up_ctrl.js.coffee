@@ -1,3 +1,20 @@
+compareTo = ->
+  require: "ngModel"
+  scope:
+    otherModelValue: "=compareTo"
+
+  link: (scope, element, attributes, ngModel) ->
+    ngModel.$validators.compareTo = (modelValue) ->
+      modelValue is scope.otherModelValue
+
+    scope.$watch "otherModelValue", ->
+      ngModel.$validate()
+      return
+
+    return
+
+angular.module('caloriesApp').directive "compareTo", compareTo
+
 angular.module('caloriesApp').controller 'SignUpCtrl', ['$scope', '$http', '$location', 'alerts', '$rootScope', ($scope, $http, $location, alerts, $rootScope) ->
   busy = false
 
