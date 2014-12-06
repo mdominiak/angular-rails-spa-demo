@@ -1,1 +1,1 @@
-json.(user, :email)
+json.(user, :email, :daily_calories)

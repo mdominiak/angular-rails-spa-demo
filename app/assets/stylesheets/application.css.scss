@@ -1,14 +1,27 @@
 @import 'bootstrap-sass-official/bootstrap';
 
+$width-date: 120px;
+$width-calories: 50px;
+
 .table-meals {
   td {
     vertical-align: middle !important;
   }
   .col-when {
-    width: 120px;
+    width: $width-date;
   }
   .col-calories {
-    width: 50px;
+    width: $width-calories;
+    text-align: right;
+  }
+}
+
+.table-calories-daily {
+  .col-date {
+    width: $width-date;
+  }
+  .col-calories {
+    width: $width-calories;
     text-align: right;
   }
 }

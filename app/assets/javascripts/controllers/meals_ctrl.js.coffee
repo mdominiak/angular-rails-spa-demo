@@ -1,5 +1,6 @@
 angular.module('caloriesApp').controller 'MealsCtrl', ['$scope', '$http', 'alerts', '$window', ($scope, $http, alerts, $window) ->
   $scope.meals = []
+  $scope.caloriesDaily = []
   $scope.mealFilter =
     date_from: null
     date_to: null
@@ -14,6 +15,14 @@ angular.module('caloriesApp').controller 'MealsCtrl', ['$scope', '$http', 'alert
       .error ->
         alerts.addAlert('danger', 'Failed to load meals.')
 
+  fetchCaloriesDaily = ->
+    $http.get('/api/calories_daily')
+      .success (data) ->
+        console.log data
+        $scope.caloriesDaily = data
+      .error ->
+        alerts.addAlert('danger', 'Failed to calories daily.')        
+
   $scope.filterMeals = (filter) ->
     return unless $scope.formFilter.$valid
     fetchMeals()
@@ -27,4 +36,5 @@ angular.module('caloriesApp').controller 'MealsCtrl', ['$scope', '$http', 'alert
         alerts.addAlert('danger', 'Failed to delete the meal.')
 
   fetchMeals()
+  fetchCaloriesDaily()
 ]

@@ -27,6 +27,26 @@
         </div>
       </tbody>
     </table>
+
+    <h2>Calories daily</h2>
+    <p>Your expected daily calories limit is {{currentUser.daily_calories}}. You can <a href="settings">change</a> it in settings.</p>
+    <p ng-show="caloriesDaily.length == 0">No daily calories to show.</p>
+    <table class="table table-hover table-calories-daily" ng-show="caloriesDaily.length > 0">
+      <thead>
+        <tr>
+          <th class='col-date'>Date</th>
+          <th class='col-calories'>Calories</th>
+          <th></th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr ng-repeat="day in caloriesDaily" ng-class="day.calories > currentUser.daily_calories ? 'danger' : 'success' ">
+          <td class='col-date'>{{day.date | date: 'MMM dd'}}</td>
+          <td class='col-calories'>{{day.calories}}</td>
+          <td></td>
+        </tr>
+      </tbody>
+    </table>
   </div>
   <div class="col-sm-3">
     <div class="panel panel-default">
@@ -57,4 +77,3 @@
     </div>
   </div>
 </div>
-
