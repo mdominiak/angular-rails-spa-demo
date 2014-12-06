@@ -1,6 +1,5 @@
 module Api
   class MealsController < BaseController
-    before_filter :authenticate_user!
     before_filter :load_meal, only: [:destroy, :show, :update]
 
     # GET /api/meals

@@ -159,6 +159,26 @@ describe 'Meals API', type: :request do
     end
   end
 
+  context 'with auth token' do
+    let!(:user) { FactoryGirl.create(:user) }
+    let!(:meals) { user.meals.create(FactoryGirl.attributes_for_list(:meal, 2)) }
+
+    describe 'index' do
+      it 'success' do
+        get '/api/meals', auth_token: user.auth_token
+        expect(response).to have_http_status(200)
+
+        json_arr = JSON.parse(response.body)
+        expect(json_arr.length).to eq 2
+      end
+
+      it 'invalid token' do
+        get '/api/meals', auth_token: 'abc'
+        expect(response).to have_http_status(401)
+      end
+    end
+  end
+
   context 'unauthenticated' do
     it 'index' do
       get '/api/meals'

@@ -1,6 +1,5 @@
 module Api
   class CaloriesDailyController < BaseController
-    before_filter :authenticate_user!
 
     # GET /api/calories_daily
     def index
