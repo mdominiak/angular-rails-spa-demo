@@ -35,4 +35,19 @@ describe 'Registrations API', type: :request do
     end
   end
 
+  describe 'update' do
+    let(:user) { FactoryGirl.create(:user) }
+
+    it 'success' do
+      patch '/api/users', user: {daily_calories: 3000}, auth_token: user.auth_token
+      expect(response).to have_http_status(200)
+      expect(user.reload.daily_calories).to eq 3000
+    end
+
+    it 'invalid params' do
+      patch '/api/users', user: {daily_calories: ''}, auth_token: user.auth_token
+      expect(response).to have_http_status(422)
+    end
+  end
+
 end
