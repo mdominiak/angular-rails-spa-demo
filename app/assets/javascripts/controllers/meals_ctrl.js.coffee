@@ -32,6 +32,7 @@ angular.module('caloriesApp').controller 'MealsCtrl', ['$scope', '$http', 'alert
     $http.delete("/api/meals/#{meal.id}")
       .success ->
         $scope.meals.splice $scope.meals.indexOf(meal), 1
+        fetchCaloriesDaily()
       .error ->
         alerts.addAlert('danger', 'Failed to delete the meal.')
 
