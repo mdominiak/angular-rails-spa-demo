@@ -17,7 +17,7 @@
       </thead>
       <tbody>
         <tr ng-repeat="meal in meals">
-          <td class='col-when'>{{meal.eaten_at | date: 'MMM dd, HH:mm'}}</td>
+          <td class='col-when'>{{meal.eaten_at | date: 'MMM dd, HH:mm' : 'UTC'}}</td>
           <td class='col-calories'>{{meal.calories}}</td>
           <td>{{meal.description}}</td>
           <td class='text-right'>

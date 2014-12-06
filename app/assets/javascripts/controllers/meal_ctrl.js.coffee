@@ -5,23 +5,24 @@ angular.module('caloriesApp').controller 'MealCtrl', ['$scope', '$http', 'alerts
     $http.get("/api/meals/" + $routeParams.mealId)
       .success (data) ->
         data.eaten_at = new Date(data.eaten_at)
-        data.time = angular.copy(data.eaten_at)
+        data.date = $filter('date')(data.eaten_at, 'yyyy-MM-dd', 'UTC')
+        data.time = $filter('date')(data.eaten_at, 'H:mm', 'UTC')
         $scope.meal = data
       .error ->
         alerts.addAlert('danger', "Failed to load the meal.")
   else
+    now = new Date()
     $scope.meal =
-      eaten_at: new Date()
-      time: new Date()
+      eaten_at: now
+      date: $filter('date')(now, 'yyyy-MM-dd', 'UTC')
+      time: $filter('date')(now, 'H:mm', 'UTC')
 
   $scope.saveMeal = (meal) ->
     return if $scope.formMeal.$invalid
-    meal.eaten_at.setHours meal.time.getHours()
-    meal.eaten_at.setMinutes meal.time.getMinutes()
     mealAttr = 
       calories: parseInt(meal.calories)
       description: meal.description
-      eaten_at: meal.eaten_at.toJSON()
+      eaten_at: "#{meal.date}T#{meal.time}Z"
   
     saveMethod = if meal.id then $http.patch else $http.post
     saveMethod((if meal.id then "/api/meals/#{meal.id}" else "/api/meals/"), mealAttr)
