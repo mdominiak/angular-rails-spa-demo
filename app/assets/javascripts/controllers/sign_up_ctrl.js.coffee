@@ -7,7 +7,7 @@ angular.module('caloriesApp').controller 'SignUpCtrl', ['$scope', '$http', '$loc
     busy = true
     $http.post('/api/users', user: user)
       .success (data) ->
-        $rootScope.currentUser = data
+        $rootScope.currentUser = data.user
         $location.path('/dashboard')
       .error (data, status, headers, config) ->
         if status == 422 and data.errors

@@ -80,7 +80,7 @@ app.controller 'LoginCtrl', ['$scope', '$http', '$location', 'alerts', '$rootSco
     $http.post('/api/users/sign_in', user: credentials)
       .success (data) ->
         busy = false
-        $rootScope.currentUser = data
+        $rootScope.currentUser = data.user
         $location.path('/dashboard')
       .error ->
         console.log 'error'
