@@ -28,6 +28,9 @@ angular.module('caloriesApp').controller 'MealCtrl', ['$scope', '$http', 'alerts
     saveMethod((if meal.id then "/api/meals/#{meal.id}" else "/api/meals/"), mealAttr)
       .success (data) ->
         $location.path('/dashboard')
-      .error ->
-        alerts.addAlert('danger', 'Failed to save meal.')
+      .error (data, status, headers, config) ->
+        if status == 422 and data.errors
+          alerts.addAlert 'danger', "Please fix the following errors: #{data.errors.join(', ')}."
+        else
+          alerts.addAlert 'danger', 'Failed to save meal.'
 ]

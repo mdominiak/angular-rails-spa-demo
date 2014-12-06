@@ -92,6 +92,11 @@ describe 'Meals API', type: :request do
         expect(json['description']).to eq meal.description
         expect(json['eaten_at']).to eq meal.eaten_at.as_json
       end
+
+      it 'with invalid params' do
+        post '/api/meals', meal: {calories: ''}
+        expect(response).to have_http_status(422)
+      end
     end
 
     describe 'destroy' do

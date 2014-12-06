@@ -9,8 +9,12 @@ module Api
 
     # POST /api/meals
     def create
-      @meal = current_user.meals.create! meal_params
-      render status: :created
+      @meal = current_user.meals.build(meal_params)
+      if @meal.save
+        render status: :created
+      else
+        render json: {errors: @meal.errors.full_messages}, status: :unprocessable_entity
+      end
     end
 
     # DELETE /api/meals/:id
