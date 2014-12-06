@@ -1,21 +1,21 @@
 angular.module('caloriesApp').controller 'MealsCtrl', ['$scope', '$http', 'alerts', '$window', ($scope, $http, alerts, $window) ->
   $scope.meals = []
   $scope.mealFilter =
-    dateFrom: null
-    dateTo: null
-    timeFrom: null
-    timeTo: null
+    date_from: null
+    date_to: null
+    time_from: null
+    time_to: null
 
   fetchMeals = ->
-    filterData = $scope.mealFilter
-
-    $http.get('/api/meals')
+    $scope.mealFilter[key] = $scope.mealFilter[key] || null for key of $scope.mealFilter
+    $http.get('/api/meals', params: $scope.mealFilter)
       .success (data) ->
         $scope.meals = data
       .error ->
         alerts.addAlert('danger', 'Failed to load meals.')
 
   $scope.filterMeals = (filter) ->
+    return unless $scope.formFilter.$valid
     fetchMeals()
 
   $scope.deleteMeal = (meal) ->
